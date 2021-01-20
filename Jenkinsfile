@@ -1,29 +1,21 @@
 pipeline {
     agent any
-
+    environment {
+        RELEASE='20.04'
+    }
     stages {
         stage('Build') {
+            agent any
+            environment {
+                LOG_LEVEL='INFO'
+            }
             steps {
-                echo 'Building..'
+                echo "Building release ${RELEASE} with log level ${LOG_LEVEL}..."
             }
         }
         stage('Test') {
             steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
+                echo "Testing. I can see release ${RELEASE}, but not log level ${LOG_LEVEL}"
             }
         }
     }
-    agent { docker { image 'python:3.5.1' } }
-    stages {
-        stage('build') {
-            steps {
-                sh 'python --version'
-            }
-        }
-    }
-}
